@@ -31,19 +31,23 @@ public class EventoSismico {
     }
     
     public float getLatitudEpicentro() {
-        return latitudEpicentro;
+        return this.latitudEpicentro;
     }
     
     public float getLongitudEpicentro() {
-        return longitudEpicentro;
+        return this.longitudEpicentro;
     }
     
     public float getLatitudHipocentro() {
-        return latitudHipocentro;
+        return this.latitudHipocentro;
     }
     
     public float getLongitudHipocentro() {
-        return longitudHipocentro;
+        return this.longitudHipocentro;
+    }
+
+    public LocalDateTime getFechaHoraFin() {
+        return this.fechaHoraFin;
     }
     
     
