@@ -1,83 +1,156 @@
 package com.grupo7.dsi_tp1;
 
-import java.util.ArrayList;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JList;
-import javax.swing.JScrollPane; // Import JScrollPane
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListCellRenderer;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 
-public class Ventana1 extends javax.swing.JPanel {
+/**
+ * Ventana1 actualizada: ahora el JScrollPane muestra siempre la barra vertical
+ * a la derecha cuando el contenido desborda.
+ */
+public class Ventana1 extends JPanel {
 
-    private GestorRevisionManual gestorRevisionManual; // Field to hold the instance
-    private JList<String> eventList; // JList to display the data
-    private DefaultListModel<String> listModel; // Model for the JList
+    private GestorRevisionManual gestorRevisionManual;
+    private JList<List<String>> eventList;
+    private DefaultListModel<List<String>> listModel;
+    private int hoverIndex = -1;
 
-    public Ventana1() {
-        // Initialize the list model
+    public Ventana1(List<EventoSismico> listaEventos,
+                    List<Estado> listaEstados,
+                    List<Usuario> listaUsuarios) {
+        setLayout(new BorderLayout());
+
+        // Obligar a ocupar pantalla completa
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setPreferredSize(screenSize);
+
+        // Inicializar modelo y JList
         listModel = new DefaultListModel<>();
-        initComponents();
-        // Set the model for the JList
-        eventList.setModel(listModel);
+        eventList = new JList<>(listModel);
+        eventList.setCellRenderer(new EventoCellRenderer());
+        eventList.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        // Instantiate the GestorRevisionManual
-        // In a real application, this might be passed in or managed by a larger system
-        this.gestorRevisionManual = new GestorRevisionManual();
-    }
+        // Crear JScrollPane con barra vertical siempre visible
+        JScrollPane scrollPane = new JScrollPane(
+            eventList,
+            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
+        add(scrollPane, BorderLayout.CENTER);
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">
-    private void initComponents() {
+        // Botón en la zona norte para cargar datos
+        javax.swing.JButton jButton1 = new javax.swing.JButton("Registrar resultado revisión manual");
+        jButton1.addActionListener(evt -> cargarDatosEnLista());
+        add(jButton1, BorderLayout.NORTH);
 
-        jButton1 = new javax.swing.JButton();
-        eventList = new javax.swing.JList<>(); // Initialize the JList
-        JScrollPane scrollPane = new JScrollPane(eventList); // Wrap JList in JScrollPane
+        // Instanciar el gestor
+        this.gestorRevisionManual = new GestorRevisionManual(
+            listaEventos, listaEstados, listaUsuarios
+        );
 
-        jButton1.setText("Registrar resultado revisión manual");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        // Controlar hover: actualizar hoverIndex al mover el mouse
+        eventList.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                int idx = eventList.locationToIndex(e.getPoint());
+                if (idx != hoverIndex) {
+                    hoverIndex = idx;
+                    eventList.repaint();
+                }
+            }
+        });
+        // Resetear hoverIndex al salir del área de la lista
+        eventList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                hoverIndex = -1;
+                eventList.repaint();
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(86, 86, 86)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)) // Add scrollPane
-                .addContainerGap(99, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED) // Add some space
-                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE) // Add scrollPane and set preferred height
-                .addContainerGap(50, Short.MAX_VALUE)) // Adjust padding
-        );
-    }// </editor-fold>
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        listModel.clear();
-
-        // ArrayList<ArrayList<String>> eventosNoRevisados = gestorRevisionManual.buscarEventosSismicosNoRevisados();
-
-        // Check if the returned list is not null (though it should be initialized as empty)
-        // if (eventosNoRevisados != null && !eventosNoRevisados.isEmpty()) {
-        //  for (ArrayList<String> eventData : eventosNoRevisados) {
-        //        // Example: ["Magnitud: 5.2", "Fecha: 2025-06-03"] -> "Magnitud: 5.2, Fecha: 2025-06-03"
-        //        String formattedEvent = String.join(", ", eventData);
-        //        listModel.addElement(formattedEvent);
-        //    }
-        //} else {
-        //    listModel.addElement("No hay eventos sísmicos no revisados para mostrar.");
-        //}
+        // Al agregar a un JFrame, pedir maximizar
+        SwingUtilities.invokeLater(() -> {
+            JFrame top = (JFrame) SwingUtilities.getWindowAncestor(this);
+            if (top != null) {
+                top.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            }
+        });
     }
 
-    // Variables declaration - do not modify
-    private javax.swing.JButton jButton1;
-    // End of variables declaration
+    private void cargarDatosEnLista() {
+        listModel.clear();
+        List<List<String>> datosPrincipales =
+            gestorRevisionManual.buscarEventosSismicosNoRevisados();
+
+        if (datosPrincipales == null || datosPrincipales.isEmpty()) {
+            listModel.addElement(List.of(
+                "No hay eventos sísmicos no revisados para mostrar.",
+                "", "", "", ""
+            ));
+        } else {
+            for (List<String> eventoData : datosPrincipales) {
+                listModel.addElement(eventoData);
+            }
+        }
+    }
+
+    private class EventoCellRenderer extends javax.swing.JLabel implements ListCellRenderer<List<String>> {
+        public EventoCellRenderer() {
+            setOpaque(true);
+            setBorder(new EmptyBorder(8, 8, 8, 8));
+        }
+
+        @Override
+        public java.awt.Component getListCellRendererComponent(
+                JList<? extends List<String>> list,
+                List<String> value,
+                int index,
+                boolean isSelected,
+                boolean cellHasFocus) {
+
+            String fechaHora = value.size() > 0 ? value.get(0) : "";
+            String latEpic   = value.size() > 1 ? value.get(1) : "";
+            String lonEpic   = value.size() > 2 ? value.get(2) : "";
+            String latHipo   = value.size() > 3 ? value.get(3) : "";
+            String lonHipo   = value.size() > 4 ? value.get(4) : "";
+
+            String html = "<html>"
+                        + "<table cellpadding='4'>"
+                        + "<tr><td><b>Fecha y Hora de Ocurrencia:</b></td><td>" + fechaHora + "</td></tr>"
+                        + "<tr><td><b>Latitud Epicentro:</b></td><td>"       + latEpic   + "</td></tr>"
+                        + "<tr><td><b>Longitud Epicentro:</b></td><td>"      + lonEpic   + "</td></tr>"
+                        + "<tr><td><b>Latitud Hipocentro:</b></td><td>"      + latHipo   + "</td></tr>"
+                        + "<tr><td><b>Longitud Hipocentro:</b></td><td>"     + lonHipo   + "</td></tr>"
+                        + "</table>"
+                        + "</html>";
+            setText(html);
+
+            if (isSelected) {
+                setBackground(UIManager.getColor("List.selectionBackground"));
+                setForeground(UIManager.getColor("List.selectionForeground"));
+            } else if (index == hoverIndex) {
+                setBackground(new Color(220, 240, 255));
+                setForeground(list.getForeground());
+            } else {
+                setBackground(list.getBackground());
+                setForeground(list.getForeground());
+            }
+
+            return this;
+        }
+    }
 }

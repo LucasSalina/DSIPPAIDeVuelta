@@ -24,8 +24,16 @@ public class CambioEstado {
     }
     
     // Comportamiento
+    
+    // Verificando si es el estado actual del evento sismico
     public boolean esEstadoActual() {
-        return true;
+        
+        // Verificando que la fechaFin sea null
+        if (this.fechaHoraFin == null) {
+            return true;
+        }
+        
+        return false;
     }
     
     public boolean sosAutoDetectado() {

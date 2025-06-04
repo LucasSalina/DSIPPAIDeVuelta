@@ -26,7 +26,7 @@ public class EventoSismico {
     private int valorMagnitud;
     
     // Relaciones
-    private List<CambioEstado> cambiosEstado = new ArrayList<>();
+    private List<CambioEstado> cambioEstado = new ArrayList<>();
     private Estado estadoActual;
     private List<SerieTemporal> serieTemporal = new ArrayList<>();
     private ClasificacionSismo clasificacion;
@@ -38,7 +38,7 @@ public class EventoSismico {
     // Constructor
     public EventoSismico(LocalDateTime fechaHoraOcurrencia, LocalDateTime fechaHoraFin, 
             float latitudEpicentro, float longitudEpicentro, float longitudHipocentro, 
-            float latitudHipocentro, int valorMagnitud, List<CambioEstado> cambiosEstado, 
+            float latitudHipocentro, int valorMagnitud, List<CambioEstado> cambioEstado, 
             Estado estadoActual, List<SerieTemporal> serieTemporal, ClasificacionSismo clasificacion,
             MagnitudRitcher magnitud, OrigenDeGeneracion origenGeneracion,
             AlcanceSismo alcanceSismo, Empleado analistaSupervisor) {
@@ -50,7 +50,7 @@ public class EventoSismico {
         this.latitudHipocentro = latitudHipocentro;
         this.longitudHipocentro = longitudHipocentro;
         this.valorMagnitud = valorMagnitud; 
-        this.cambiosEstado = cambiosEstado;
+        this.cambioEstado = cambioEstado;
         this.estadoActual = estadoActual;
         this.serieTemporal = serieTemporal;
         this.clasificacion = clasificacion;
@@ -61,12 +61,52 @@ public class EventoSismico {
     }
     
     // Comportamiento
-    public void obtenerDatosPrincipales() {
-        // TODO
+    public List<String> obtenerDatosPrincipales() {
+       
+        // Definiendo la lista de datos principales del evento sismico
+        List<String> datosPrincipales = new ArrayList<>();
+        
+        // Obteniendo los datos principales
+        datosPrincipales.add(getFechaHoraOcurrencia().toString());
+        datosPrincipales.add(String.valueOf(getLatitudEpicentro()));
+        datosPrincipales.add(String.valueOf(getLongitudEpicentro()));
+        datosPrincipales.add(String.valueOf(getLatitudHipocentro()));
+        datosPrincipales.add(String.valueOf(getLongitudHipocentro()));
+        
+        // Retornando los datos principales del evento sismico
+        return datosPrincipales; 
+        
     }
     
-    public void esAutoDetectadoOPendienteRevision() {
-        // TODO
+    // Método para saber si un evento sismico es No Revisado
+    public boolean esAutoDetectadoOPendienteRevision() {
+        
+       // Recorriendo los cambios de estado del evento sismico
+       for (CambioEstado cambioDeEstado : cambioEstado) {
+       
+           // Verificando si el cambio de estado es estado actual
+           if (cambioDeEstado.esEstadoActual()) {
+           
+               // Verificando si es AutoDetectado
+               if (cambioDeEstado.sosAutoDetectado()) {
+                   
+                   // Afirmando que el evento sismico es no revisado
+                   return true;
+                   
+               }
+               
+               // Verificando si es PendienteRevision
+               if (cambioDeEstado.sosPendienteRevision()) {
+               
+                   // Afirmando que el evento sismico es no revisado
+                   return true; 
+               }
+           }
+       }
+       
+       // Afirmando que el evento sismico es revisado
+       return false; 
+       
     }
     
     // Getters

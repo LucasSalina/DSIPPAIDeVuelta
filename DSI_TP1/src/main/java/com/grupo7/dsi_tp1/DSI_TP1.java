@@ -6,10 +6,11 @@ public class DSI_TP1 {
     public static void main(String[] args) {
             
         // Creando todas las intancias del programa
-        DataInitializer.initializeAll();
+        DataInitializer data = new DataInitializer();
+        data.initializeAll();
             
         // Creando la ventana
-        Ventana1 pantallaRegistrarRevision = new Ventana1();
+        Ventana1 pantallaRegistrarRevision = new Ventana1(data.listaEventos, data.listaEstados, data.listaUsuarios);
         JFrame frame = new JFrame("Aplicación de Revisión Sísmica");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close operation
                 frame.add(pantallaRegistrarRevision); // Add your JPanel to the frame

@@ -6,8 +6,10 @@ com\grupo7\dsi_tp1\GestorRevisionManual.class
 com\grupo7\dsi_tp1\Permiso.class
 com\grupo7\dsi_tp1\Perfil.class
 com\grupo7\dsi_tp1\EstacionSismologica.class
+com\grupo7\dsi_tp1\Ventana1$2.class
 com\grupo7\dsi_tp1\MuestraSismica.class
 com\grupo7\dsi_tp1\OrigenDeGeneracion.class
+com\grupo7\dsi_tp1\Ventana1$EventoCellRenderer.class
 com\grupo7\dsi_tp1\ClasificacionSismo.class
 com\grupo7\dsi_tp1\MagnitudRitcher.class
 com\grupo7\dsi_tp1\DetalleMuestraSismica.class
