@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.grupo7.dsi_tp1;
 
 /**
@@ -13,15 +9,27 @@ public class Estado {
     private String ambito;
     private String nombreEstado;
     
-    public Estado() {
-    
+    // Constructor
+    public Estado(String ambito, String nombreEstado) {
+        
+        this.ambito = ambito; 
+        this.nombreEstado = nombreEstado;
     }
     
+    // Comportamiento
     public boolean sosAutoDetectado() {
         return "Autodetectado".equals(nombreEstado);
     }
     
     public boolean sosPendienteRevision() {
         return "PendienteRevision".equals(nombreEstado);
+    }
+    
+    public boolean sosBloqueadoEnRevision() {
+        return "PendienteRevision".equals(nombreEstado);
+    }
+    
+    public boolean sosDerivadoAExperto() {
+        return "DeivadoAExperto".equals(nombreEstado);
     }
 }

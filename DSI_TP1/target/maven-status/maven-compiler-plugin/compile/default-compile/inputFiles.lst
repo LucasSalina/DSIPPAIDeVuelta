@@ -1,6 +1,24 @@
-C:\Users\alumno.GI\Downloads\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\Ventana1.java
-C:\Users\alumno.GI\Downloads\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\DSI_TP1.java
-C:\Users\alumno.GI\Downloads\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\GestorRevisionManual.java
-C:\Users\alumno.GI\Downloads\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\CambioEstado.java
-C:\Users\alumno.GI\Downloads\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\Estado.java
-C:\Users\alumno.GI\Downloads\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\EventoSismico.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\AlcanceSismo.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\CambioEstado.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\ClasificacionSismo.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\DataInitializer.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\DetalleMuestraSismica.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\DSI_TP1.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\Empleado.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\EstacionSismologica.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\Estado.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\EventoSismico.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\Fabricante.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\GestorRevisionManual.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\MagnitudRitcher.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\ModeloSismografo.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\MuestraSismica.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\OrigenDeGeneracion.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\Perfil.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\Permiso.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\Rol.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\SerieTemporal.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\Sismografo.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\TipoDeDato.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\Usuario.java
+C:\Users\Esmeralda\Music\Daniel\DSI PPAI\PPAI_DSI_Escritorio\DSIPPAIDeVuelta\DSI_TP1\src\main\java\com\grupo7\dsi_tp1\Ventana1.java

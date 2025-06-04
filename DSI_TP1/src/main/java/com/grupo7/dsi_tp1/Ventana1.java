@@ -63,18 +63,18 @@ public class Ventana1 extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         listModel.clear();
 
-        ArrayList<ArrayList<String>> eventosNoRevisados = gestorRevisionManual.buscarEventosSismicosNoRevisados();
+        // ArrayList<ArrayList<String>> eventosNoRevisados = gestorRevisionManual.buscarEventosSismicosNoRevisados();
 
         // Check if the returned list is not null (though it should be initialized as empty)
-        if (eventosNoRevisados != null && !eventosNoRevisados.isEmpty()) {
-            for (ArrayList<String> eventData : eventosNoRevisados) {
-                // Example: ["Magnitud: 5.2", "Fecha: 2025-06-03"] -> "Magnitud: 5.2, Fecha: 2025-06-03"
-                String formattedEvent = String.join(", ", eventData);
-                listModel.addElement(formattedEvent);
-            }
-        } else {
-            listModel.addElement("No hay eventos sísmicos no revisados para mostrar.");
-        }
+        // if (eventosNoRevisados != null && !eventosNoRevisados.isEmpty()) {
+        //  for (ArrayList<String> eventData : eventosNoRevisados) {
+        //        // Example: ["Magnitud: 5.2", "Fecha: 2025-06-03"] -> "Magnitud: 5.2, Fecha: 2025-06-03"
+        //        String formattedEvent = String.join(", ", eventData);
+        //        listModel.addElement(formattedEvent);
+        //    }
+        //} else {
+        //    listModel.addElement("No hay eventos sísmicos no revisados para mostrar.");
+        //}
     }
 
     // Variables declaration - do not modify
