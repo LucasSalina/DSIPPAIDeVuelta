@@ -10,6 +10,7 @@ import java.util.Comparator;
 import com.grupo7.dsi_tp1.EventoSismico;
 import com.grupo7.dsi_tp1.Estado;
 import com.grupo7.dsi_tp1.Usuario;
+import com.grupo7.dsi_tp1.Ventana1;
 
 public class GestorRevisionManual {
    
@@ -17,15 +18,26 @@ public class GestorRevisionManual {
     private List<EventoSismico> eventosSismicos = new ArrayList<>(); 
     private List<Estado> estados = new ArrayList<>();
     private List<Usuario> usuarios = new ArrayList<>();
+    private Ventana1 pantallaRevisionManual;
     
     // Constructor
-    public GestorRevisionManual(List<EventoSismico> eventosSismicos, List<Estado> estados, List<Usuario> usuarios) {
+    public GestorRevisionManual(List<EventoSismico> eventosSismicos, List<Estado> estados,
+            List<Usuario> usuarios, Ventana1 pantallaRevisionManual) {
         this.eventosSismicos = eventosSismicos;
         this.estados = estados; 
         this.usuarios = usuarios; 
+        this.pantallaRevisionManual = pantallaRevisionManual;
     }
 
     // Comportamiento
+    
+    // Registrar Resultado de Revision Manual - Flujo
+    public void registrarResultadoRevisionManual() {
+        
+        // Mostrar el pantalla los datos principales de lso evento sissmicos no registrados
+        this.pantallaRevisionManual.mostarEventosSismicosYSolicitarSeleccion(buscarEventosSismicosNoRevisados());
+    }
+    
     public List<List<String>> buscarEventosSismicosNoRevisados() {
         // Inicializando la matriz de datos principales de eventos sismicos no revisados
         List<List<String>> eventosSismicosNoRevisados = new ArrayList<>();

@@ -52,15 +52,15 @@ public class Ventana1 extends JPanel {
         );
         add(scrollPane, BorderLayout.CENTER);
 
-        // Botón en la zona norte para cargar datos
-        javax.swing.JButton jButton1 = new javax.swing.JButton("Registrar resultado revisión manual");
-        jButton1.addActionListener(evt -> cargarDatosEnLista());
-        add(jButton1, BorderLayout.NORTH);
-
         // Instanciar el gestor
         this.gestorRevisionManual = new GestorRevisionManual(
-            listaEventos, listaEstados, listaUsuarios
+            listaEventos, listaEstados, listaUsuarios, this
         );
+        
+        // Botón en la zona norte para cargar datos
+        javax.swing.JButton jButton1 = new javax.swing.JButton("Registrar resultado revisión manual");
+        jButton1.addActionListener(evt -> gestorRevisionManual.registrarResultadoRevisionManual());
+        add(jButton1, BorderLayout.NORTH);
 
         // Controlar hover: actualizar hoverIndex al mover el mouse
         eventList.addMouseMotionListener(new MouseMotionAdapter() {
@@ -91,11 +91,17 @@ public class Ventana1 extends JPanel {
         });
     }
 
-    private void cargarDatosEnLista() {
+    // Comportamiento
+    public void mostarEventosSismicosYSolicitarSeleccion(List<List<String>> datosPrincipales) {
+        
+        // Mostrar los datos principales de los eventos sismicos no revisados en formato de lista
+        cargarDatosEnLista(datosPrincipales);
+    }
+    
+    private void cargarDatosEnLista(List<List<String>> datosPrincipales) {
+        
         listModel.clear();
-        List<List<String>> datosPrincipales =
-            gestorRevisionManual.buscarEventosSismicosNoRevisados();
-
+        
         if (datosPrincipales == null || datosPrincipales.isEmpty()) {
             listModel.addElement(List.of(
                 "No hay eventos sísmicos no revisados para mostrar.",
