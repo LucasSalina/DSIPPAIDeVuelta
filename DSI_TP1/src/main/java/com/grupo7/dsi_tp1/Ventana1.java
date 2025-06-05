@@ -87,7 +87,7 @@ public class Ventana1 extends JPanel {
                     List<String> datosSeleccionados = listModel.getElementAt(idx);
 
                     // Invocar método del gestor pasando esos datos
-                    gestorRevisionManual.tomarSeleccionEventoSismico(datosSeleccionados);
+                    tomarSeleccionEventoSismico(datosSeleccionados);
                     
                     // Mostrar el evento sismico seleccionado
                     mostrarEventoSeleccionado(datosSeleccionados);
@@ -169,6 +169,14 @@ public class Ventana1 extends JPanel {
 
             return this;
         }
+    }
+    
+    // Tomar el evento sismico seleccionado
+    private void tomarSeleccionEventoSismico(List<String> datosSelecciondos) {
+            
+        // Informar al gestor el conjunto de datosPrincipales del evento sismico que fue seleccionado
+        gestorRevisionManual.tomarSeleccionEventoSismico(datosSelecciondos);
+            
     }
     
     // Mostrar cual es el evento sismico seleccionado
