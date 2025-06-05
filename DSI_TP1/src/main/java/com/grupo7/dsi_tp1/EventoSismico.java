@@ -61,6 +61,8 @@ public class EventoSismico {
     }
     
     // Comportamiento
+    
+    // Método para obtener mis datos principales
     public List<String> obtenerDatosPrincipales() {
        
         // Definiendo la lista de datos principales del evento sismico
@@ -109,6 +111,44 @@ public class EventoSismico {
        
     }
     
+    // Método para saber si un conjunto de datos principales son mios
+    public boolean sonMisDatosPrincipales(List<String> datosPrincipales) {
+        
+        // Verificando si los datos principales corresponden con los mios
+        if (obtenerDatosPrincipales() == datosPrincipales) {
+            
+            // Son mis datos principales
+            return true;
+        }
+        
+        // No son mis datos principales
+        return false;
+    }
+    
+    // Bloquear evento sismico seleccionado por revision
+    public void bloquearPorRevision(Estado estadoBloqueado, LocalDateTime fechaHoraActual, Empleado responsableInspeccion) {
+        
+        // Definiendo el cambio de estado actual
+        CambioEstado cambioDeEstadoActual = new CambioEstado();
+        
+        // Obteneer el cambio de estado actual
+        for (CambioEstado cambioDeEstado : cambioEstado) {
+            
+            // Encontrando al estado actual
+            if (cambioDeEstado.esEstadoActual()) {
+                
+                cambioDeEstadoActual = cambioDeEstado; 
+            }
+        }
+        
+        // Cerrando el cambio de estado actual seteando la fechaHoraFin
+        cambioDeEstadoActual.setFechaHoraFin(fechaHoraActual);
+        
+        // Creando un nuevo objeto cambio de estado con estado BloqueadoPorRevision
+        CambioEstado nuevoCambioEstado = new CambioEstado(estadoBloqueado, responsableInspeccion, fechaHoraActual);
+    }
+    
+    
     // Getters
     public LocalDateTime getFechaHoraOcurrencia() {
         return this.fechaHoraOcurrencia;
@@ -149,5 +189,6 @@ public class EventoSismico {
     public ClasificacionSismo getClasificacion() {
         return clasificacion; 
     }
+    
     
 }

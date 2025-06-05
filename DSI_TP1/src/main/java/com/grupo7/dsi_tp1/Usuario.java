@@ -6,6 +6,7 @@ import java.util.List;
 
 // Entities
 import com.grupo7.dsi_tp1.Perfil; 
+import com.grupo7.dsi_tp1.Empleado; 
 
 /**
  *
@@ -18,9 +19,10 @@ public class Usuario {
    
    // Relaciones 
    private List<Perfil> perfil = new ArrayList<>();
+   private Empleado empleado;
    
    // Constructor
-   public Usuario(String contraseña, String nombreUsuario, List<Perfil> pefil) {
+   public Usuario(String contraseña, String nombreUsuario, List<Perfil> pefil, Empleado empleado) {
        
        this.contraseña = contraseña;
        this.nombreUsuario = nombreUsuario;
@@ -28,8 +30,17 @@ public class Usuario {
    }
    
    // Método para obtener el RI (Responsable de Inspeccion) Logueado
-   public void getRILogueado() {
-       // TODO 
+   public Empleado getRILogueado() {
+       
+        // Verificando si soy el usuario con el nombre "analista001"
+        if (nombreUsuario.equals("analista001")) {
+        
+            // Retornando el empleado
+            return empleado;
+        
+        }
+        
+        return null; 
    }
     
 }

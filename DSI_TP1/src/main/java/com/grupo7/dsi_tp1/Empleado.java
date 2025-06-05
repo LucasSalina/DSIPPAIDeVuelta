@@ -27,6 +27,11 @@ public class Empleado {
         this.rol = rol;
     }
     
+    // Constructor sin parametros
+    public Empleado() {
+    
+    }
+    
     // Comportamiento
     public boolean esResponsableDeReparacion( ){
         

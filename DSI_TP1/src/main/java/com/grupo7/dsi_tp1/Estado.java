@@ -16,6 +16,11 @@ public class Estado {
         this.nombreEstado = nombreEstado;
     }
     
+    // Constructor sin parametros
+    public Estado() {
+    
+    }
+    
     // Comportamiento
     public boolean sosAutoDetectado() {
         return "Autodetectado".equals(nombreEstado);

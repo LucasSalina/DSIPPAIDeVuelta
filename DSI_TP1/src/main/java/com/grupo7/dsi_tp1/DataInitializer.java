@@ -177,15 +177,49 @@ public class DataInitializer {
             perfilInteresado
         ));
 
+        // Crear lista de empleados para vincular con usuarios
+        listaEmpleados = new ArrayList<>();
+        Empleado empleadoAdmin1 = new Empleado("Gómez",     "gomez@ccrs.utn",     "Juan",    "3511234567", rolAdminUsuarios);
+        Empleado empleadoAdmin2 = new Empleado("Fernández", "fernandez@ccrs.utn", "María",   "3512345678", rolAdminRed);
+        Empleado empleadoAnalista = new Empleado("López",   "lopez@ccrs.utn",     "Carlos",  "3513456789", rolAnalista);
+        Empleado empleadoSupervisor = new Empleado("Pérez", "perez@ccrs.utn",     "Lucía",   "3514567890", rolSupervisor);
+        Empleado empleadoInspeccion = new Empleado("Sosa",  "sosa@ccrs.utn",      "Martín",  "3515678901", rolInspeccion);
+        Empleado empleadoReportes = new Empleado("Ramos",   "ramos@ccrs.utn",     "Laura",   "3516789012", rolReportes);
+        Empleado empleadoInteresado = new Empleado("Díaz",  "diaz@ccrs.utn",      "Andrés",  "3517890123", rolInteresado);
+
+        // Agregarlos a la lista
+        listaEmpleados.addAll(List.of(
+            empleadoAdmin1,
+            empleadoAdmin2,
+            empleadoAnalista,
+            empleadoSupervisor,
+            empleadoInspeccion,
+            empleadoReportes,
+            empleadoInteresado
+        ));
+
         // USUARIOS
+        
         listaUsuarios = new ArrayList<>();
-        listaUsuarios.add(new Usuario("pass123",   "adminUsuarios",   Arrays.asList(perfilAdminUsuarios)));
-        listaUsuarios.add(new Usuario("redpass456","adminRed",        Arrays.asList(perfilAdminRed)));
-        listaUsuarios.add(new Usuario("analistapw","analista001",     Arrays.asList(perfilAnalista)));
-        listaUsuarios.add(new Usuario("superpw",   "supervisor001",   Arrays.asList(perfilSupervisor)));
-        listaUsuarios.add(new Usuario("inspw123",  "inspeccion001",   Arrays.asList(perfilInspeccion)));
-        listaUsuarios.add(new Usuario("reponente", "reportero001",    Arrays.asList(perfilReportes)));
-        listaUsuarios.add(new Usuario("interespw", "interesado001",   Arrays.asList(perfilInteresado)));
+        
+        Usuario userAdmin1 = new Usuario("pass123", "adminUsuarios", Arrays.asList(perfilAdminUsuarios), empleadoAdmin1);
+        Usuario userAdmin2 = new Usuario("redpass456", "adminRed", Arrays.asList(perfilAdminRed), empleadoAdmin2);
+        Usuario userAnalista = new Usuario("analistapw", "analista001", Arrays.asList(perfilAnalista), empleadoAnalista);
+        Usuario userSupervisor = new Usuario("superpw", "supervisor001", Arrays.asList(perfilSupervisor), empleadoSupervisor);
+        Usuario userInspeccion = new Usuario("inspw123", "inspeccion001", Arrays.asList(perfilInspeccion), empleadoInspeccion);
+        Usuario userReportes = new Usuario("reponente", "reportero001", Arrays.asList(perfilReportes), empleadoReportes);
+        Usuario userInteresado = new Usuario("interespw", "interesado001", Arrays.asList(perfilInteresado), empleadoInteresado);
+
+        listaUsuarios.addAll(List.of(
+            userAdmin1,
+            userAdmin2,
+            userAnalista,
+            userSupervisor,
+            userInspeccion,
+            userReportes,
+            userInteresado
+        ));
+
     }
 
     // ——————————————————————————————————————————————————————————————

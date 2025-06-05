@@ -23,6 +23,11 @@ public class CambioEstado {
        this.fechaHoraInicio = fechaHoraInicio; 
     }
     
+    // Constructor sin parametros
+    public CambioEstado() {
+    
+    }
+    
     // Comportamiento
     
     // Verificando si es el estado actual del evento sismico

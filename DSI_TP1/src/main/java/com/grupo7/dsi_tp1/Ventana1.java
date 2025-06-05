@@ -18,10 +18,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-/**
- * Ventana1 actualizada: ahora el JScrollPane muestra siempre la barra vertical
- * a la derecha cuando el contenido desborda.
- */
 public class Ventana1 extends JPanel {
 
     private GestorRevisionManual gestorRevisionManual;
@@ -52,12 +48,12 @@ public class Ventana1 extends JPanel {
         );
         add(scrollPane, BorderLayout.CENTER);
 
-        // Instanciar el gestor
+        // Instanciar el gestor, pasándole esta Ventana1 para posibles callbacks
         this.gestorRevisionManual = new GestorRevisionManual(
             listaEventos, listaEstados, listaUsuarios, this
         );
-        
-        // Botón en la zona norte para cargar datos
+
+        // Botón en la zona norte para registrar resultado de revisión manual
         javax.swing.JButton jButton1 = new javax.swing.JButton("Registrar resultado revisión manual");
         jButton1.addActionListener(evt -> gestorRevisionManual.registrarResultadoRevisionManual());
         add(jButton1, BorderLayout.NORTH);
@@ -80,6 +76,23 @@ public class Ventana1 extends JPanel {
                 hoverIndex = -1;
                 eventList.repaint();
             }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int idx = eventList.locationToIndex(e.getPoint());
+                if (idx >= 0) {
+                    eventList.setSelectedIndex(idx);
+
+                    // Obtener los datos principales del evento seleccionado
+                    List<String> datosSeleccionados = listModel.getElementAt(idx);
+
+                    // Invocar método del gestor pasando esos datos
+                    gestorRevisionManual.tomarSeleccionEventoSismico(datosSeleccionados);
+                    
+                    // Mostrar el evento sismico seleccionado
+                    mostrarEventoSeleccionado(datosSeleccionados);
+                }
+            }
         });
 
         // Al agregar a un JFrame, pedir maximizar
@@ -91,17 +104,14 @@ public class Ventana1 extends JPanel {
         });
     }
 
-    // Comportamiento
+    // Comportamiento: mostrar eventos en pantalla
     public void mostarEventosSismicosYSolicitarSeleccion(List<List<String>> datosPrincipales) {
-        
-        // Mostrar los datos principales de los eventos sismicos no revisados en formato de lista
         cargarDatosEnLista(datosPrincipales);
     }
-    
+
+    // Cargar datos principales de eventos sísmicos en el modelo de la lista
     private void cargarDatosEnLista(List<List<String>> datosPrincipales) {
-        
         listModel.clear();
-        
         if (datosPrincipales == null || datosPrincipales.isEmpty()) {
             listModel.addElement(List.of(
                 "No hay eventos sísmicos no revisados para mostrar.",
@@ -114,6 +124,7 @@ public class Ventana1 extends JPanel {
         }
     }
 
+    // Clase interna para el renderizado de cada celda en la lista
     private class EventoCellRenderer extends javax.swing.JLabel implements ListCellRenderer<List<String>> {
         public EventoCellRenderer() {
             setOpaque(true);
@@ -159,4 +170,32 @@ public class Ventana1 extends JPanel {
             return this;
         }
     }
+    
+    // Mostrar cual es el evento sismico seleccionado
+    private void mostrarEventoSeleccionado(List<String> datos) {
+        // Quitar todos los componentes del panel
+        removeAll();
+
+        // Crear un nuevo JLabel con los datos formateados
+        String html = "<html>"
+                    + "<h2>Evento Sísmico Seleccionado</h2>"
+                    + "<table cellpadding='4'>"
+                    + "<tr><td><b>Fecha y Hora de Ocurrencia:</b></td><td>" + datos.get(0) + "</td></tr>"
+                    + "<tr><td><b>Latitud Epicentro:</b></td><td>" + datos.get(1) + "</td></tr>"
+                    + "<tr><td><b>Longitud Epicentro:</b></td><td>" + datos.get(2) + "</td></tr>"
+                    + "<tr><td><b>Latitud Hipocentro:</b></td><td>" + datos.get(3) + "</td></tr>"
+                    + "<tr><td><b>Longitud Hipocentro:</b></td><td>" + datos.get(4) + "</td></tr>"
+                    + "</table>"
+                    + "</html>";
+
+        javax.swing.JLabel label = new javax.swing.JLabel(html);
+        label.setBorder(new EmptyBorder(30, 30, 30, 30));
+
+        add(label, BorderLayout.CENTER);
+
+        // Refrescar la vista
+        revalidate();
+        repaint();
+    }
+
 }

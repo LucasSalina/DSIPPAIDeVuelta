@@ -38,6 +38,7 @@ public class GestorRevisionManual {
         this.pantallaRevisionManual.mostarEventosSismicosYSolicitarSeleccion(buscarEventosSismicosNoRevisados());
     }
     
+    // Buscar los eventos sismicos no revisados, es decir, que tengan estado PendienteRevision o AutoDetectado
     public List<List<String>> buscarEventosSismicosNoRevisados() {
         // Inicializando la matriz de datos principales de eventos sismicos no revisados
         List<List<String>> eventosSismicosNoRevisados = new ArrayList<>();
@@ -55,6 +56,7 @@ public class GestorRevisionManual {
         return ordenarPorFechaHoraOcurrencia(eventosSismicosNoRevisados);
     }
     
+    // Ordenar los datos principales de los eventos sismicos no seleccionados
     public List<List<String>> ordenarPorFechaHoraOcurrencia(List<List<String>> datosPrincipales) {
         // Ordenamos en sitio (ascendente) según el campo 0 parseado a LocalDateTime
         datosPrincipales.sort(new Comparator<List<String>>() {
@@ -66,5 +68,78 @@ public class GestorRevisionManual {
             }
         });
         return datosPrincipales;
+    }
+    
+    // Tomar los datos principales del evento sismico seleccioando y encontrar al evento sismico seleccionado
+    public void tomarSeleccionEventoSismico(List<String> datosPrincipales) {
+        // Por ejemplo, imprimir los datos o buscar el evento correspondiente
+        System.out.println("Evento sísmico seleccionado:");
+        for (String s : datosPrincipales) {
+            System.out.println("- " + s);
+        }
+
+        // Obtener el evento sismico seleccionado a partir de sus datos principales
+        for (EventoSismico eventoSismico : eventosSismicos) {
+            
+            if (eventoSismico.sonMisDatosPrincipales(datosPrincipales)) {
+                
+                // Asignar el evento sismico coincidente como evento sismico seleccionado
+                this.eventoSismicoSeleccionado = eventoSismico; 
+                
+                // Romper el bucle
+                break; 
+            }
+        }
+        
+        // Bloquear el evento sismico seleccionado
+        if (this.eventoSismicoSeleccionado != null) {
+            bloquearEventoSismicoSeleccioando();
+        }
+        
+    }
+
+    
+    // Obtener la fecha y la hora actual del sistema
+    public LocalDateTime getFechaHoraActual() {
+        return LocalDateTime.now();
+    } 
+    
+    // Cambiar el estado del evento sismico seleccioando a BloqueadoEnRevision
+    public void bloquearEventoSismicoSeleccioando() {
+    
+        // Obteniendo la fecha y la hora actual del sistema
+        LocalDateTime fechaHoraActual = getFechaHoraActual();
+        
+        // Defiendo el estado bloqueado
+        Estado estadoBloqueado = new Estado();
+        
+        // Definiendo el empleado responsable del cambio de estado
+        Empleado empleadoResponsableDeInspeccion = new Empleado(); 
+        
+        // Obtener el esatdo BloqueadoEnRevision
+        for (Estado estado : estados) {
+            
+            if (estado.sosBloqueadoEnRevision()) {
+            
+                // Estado bloqueado en revision encontrado
+                estadoBloqueado = estado; 
+                
+                break; 
+            }
+        }
+        
+        // Obtener al emplaado logueado responsable del cambio de estado del evento sismico selecionado
+        for (Usuario usuario : usuarios) {
+            
+            // Verificando si el usuario está logueado
+            if (usuario.getRILogueado() != null) {
+                
+                // Asignando el empleado 
+                empleadoResponsableDeInspeccion = usuario.getRILogueado();
+            }
+        }
+        
+        // Bloqueando el evento sismico selccionado
+        this.eventoSismicoSeleccionado.bloquearPorRevision(estadoBloqueado, fechaHoraActual, empleadoResponsableDeInspeccion);
     }
 }
