@@ -2,6 +2,8 @@ package com.grupo7.dsi_tp1;
 
 // Dependencies 
 import java.time.LocalDateTime; 
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -30,6 +32,22 @@ public class EstacionSismologica {
         this.nombre = nombre; 
         this.nroCertificacionAdquisicion = nroCertificacionAdquisicion; 
         
+    }
+    
+    // Comportamiento 
+    
+    // Obtener los datos de la estacion sismologica: codigoEstacion y nombre
+    public List<String> getDatosEstacion() {
+        
+        // Definiendo la lista de los datos de la estacion
+        List<String> datosEstacion = new ArrayList<>();
+        
+        // Obteniendo los datos de la estacion
+        datosEstacion.add(getCodigoEstacion());
+        datosEstacion.add(getNombre());
+        
+        // Retornando los datos de la estacion sismologica
+        return datosEstacion;
     }
     
     // Getters

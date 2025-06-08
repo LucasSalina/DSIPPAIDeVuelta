@@ -27,7 +27,8 @@ public class Ventana1 extends JPanel {
 
     public Ventana1(List<EventoSismico> listaEventos,
                     List<Estado> listaEstados,
-                    List<Usuario> listaUsuarios) {
+                    List<Usuario> listaUsuarios,
+                    List<Sismografo> listaSismografos) {
         setLayout(new BorderLayout());
 
         // Obligar a ocupar pantalla completa
@@ -50,7 +51,7 @@ public class Ventana1 extends JPanel {
 
         // Instanciar el gestor, pasándole esta Ventana1 para posibles callbacks
         this.gestorRevisionManual = new GestorRevisionManual(
-            listaEventos, listaEstados, listaUsuarios, this
+            listaEventos, listaEstados, listaUsuarios, listaSismografos, this
         );
 
         // Botón en la zona norte para registrar resultado de revisión manual
@@ -86,13 +87,11 @@ public class Ventana1 extends JPanel {
                     // Obtener los datos principales del evento seleccionado
                     List<String> datosSeleccionados = listModel.getElementAt(idx);
 
-                    // Invocar método del gestor pasando esos datos
+                    // Informar al Gestor → él hace el resto (incluido llamar a mostrarDatosSismicosRegistrados)
                     tomarSeleccionEventoSismico(datosSeleccionados);
-                    
-                    // Mostrar el evento sismico seleccionado
-                    mostrarEventoSeleccionado(datosSeleccionados);
                 }
             }
+
         });
 
         // Al agregar a un JFrame, pedir maximizar
@@ -179,31 +178,73 @@ public class Ventana1 extends JPanel {
             
     }
     
-    // Mostrar cual es el evento sismico seleccionado
-    private void mostrarEventoSeleccionado(List<String> datos) {
+    // Mostrar los datos registrados del evento sismico
+    public void mostrarDatosSismicosRegistrados(
+        List<String> datosPrincipalesEvento,
+        List<String> metadatosEvento,
+        List<List<Object>> datosSeriesOrdenadas) {
+        
         // Quitar todos los componentes del panel
         removeAll();
 
-        // Crear un nuevo JLabel con los datos formateados
-        String html = "<html>"
-                    + "<h2>Evento Sísmico Seleccionado</h2>"
-                    + "<table cellpadding='4'>"
-                    + "<tr><td><b>Fecha y Hora de Ocurrencia:</b></td><td>" + datos.get(0) + "</td></tr>"
-                    + "<tr><td><b>Latitud Epicentro:</b></td><td>" + datos.get(1) + "</td></tr>"
-                    + "<tr><td><b>Longitud Epicentro:</b></td><td>" + datos.get(2) + "</td></tr>"
-                    + "<tr><td><b>Latitud Hipocentro:</b></td><td>" + datos.get(3) + "</td></tr>"
-                    + "<tr><td><b>Longitud Hipocentro:</b></td><td>" + datos.get(4) + "</td></tr>"
-                    + "</table>"
-                    + "</html>";
+        // ----- Armar HTML con los datos -----
 
-        javax.swing.JLabel label = new javax.swing.JLabel(html);
-        label.setBorder(new EmptyBorder(30, 30, 30, 30));
+        StringBuilder html = new StringBuilder();
 
-        add(label, BorderLayout.CENTER);
+        // Encabezado con datos principales
+        html.append("<html>")
+            .append("<h2>Evento Sísmico Seleccionado</h2>")
+            .append("<table cellpadding='4' border='1' style='border-collapse:collapse;'>")
+            .append("<tr><td><b>Fecha y Hora de Ocurrencia:</b></td><td>").append(datosPrincipalesEvento.get(0)).append("</td></tr>")
+            .append("<tr><td><b>Latitud Epicentro:</b></td><td>").append(datosPrincipalesEvento.get(1)).append("</td></tr>")
+            .append("<tr><td><b>Longitud Epicentro:</b></td><td>").append(datosPrincipalesEvento.get(2)).append("</td></tr>")
+            .append("<tr><td><b>Latitud Hipocentro:</b></td><td>").append(datosPrincipalesEvento.get(3)).append("</td></tr>")
+            .append("<tr><td><b>Longitud Hipocentro:</b></td><td>").append(datosPrincipalesEvento.get(4)).append("</td></tr>")
+            .append("</table>");
+
+        // Metadatos del evento
+        html.append("<h3>Metadatos del Evento</h3>")
+            .append("<ul>")
+            .append("<li><b>Alcance:</b> ").append(metadatosEvento.get(0)).append("</li>")
+            .append("<li><b>Clasificación:</b> ").append(metadatosEvento.get(1)).append("</li>")
+            .append("<li><b>Origen:</b> ").append(metadatosEvento.get(2)).append("</li>")
+            .append("</ul>");
+
+        // Series temporales
+        html.append("<h3>Datos Registrados (Series Temporales por Estación)</h3>");
+
+        for (List<Object> serie : datosSeriesOrdenadas) {
+            String codigoEstacion = (String) serie.get(0);
+            String nombreEstacion = (String) serie.get(1);
+
+            html.append("<h4>Estación: ").append(codigoEstacion).append(" - ").append(nombreEstacion).append("</h4>");
+
+            html.append("<ul>");
+            for (int i = 2; i < serie.size(); i++) {
+                Object muestra = serie.get(i);
+                html.append("<li>").append(muestra.toString()).append("</li>");
+            }
+            html.append("</ul>");
+        }
+
+        html.append("</html>");
+
+        // Mostrar en un JLabel con scroll
+        javax.swing.JLabel label = new javax.swing.JLabel(html.toString());
+        label.setBorder(new EmptyBorder(20, 20, 20, 20));
+
+        JScrollPane scrollPane = new JScrollPane(label,
+            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
+
+        // Agregar al panel
+        add(scrollPane, BorderLayout.CENTER);
 
         // Refrescar la vista
         revalidate();
         repaint();
     }
+
 
 }

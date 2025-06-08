@@ -45,6 +45,37 @@ public class Sismografo {
         this.cambioEstado = cambioEstado; 
     }
     
+    // Comportamiento
+    
+    // Método para saber si una serie temporal es de este sismografo
+    public List<String> esTuSeriaTemporal(SerieTemporal serieTemporalConsultada) {
+      
+        // Definiendo la lista de datos de la estacion sismologica de la serieTemporal
+        List<String> datosEstacionSismologica = new ArrayList<>();
+        
+        // Consultando si la serie temporal consultada corresponde con las conocidas
+        for (SerieTemporal sTemporal : serieTemporal) {
+        
+            if (sTemporal == serieTemporalConsultada) {
+                
+                // Obteniendo los datos de la estacion sismologica
+                datosEstacionSismologica = this.estacionSismologica.getDatosEstacion();                    
+                
+                break;
+            }
+        }
+        
+        // Si la serie temporal consultada corresponde con alguna de las conocidas
+        if (datosEstacionSismologica != null) {
+            
+           return datosEstacionSismologica;
+        }
+        
+        // El sismografo no conoce a la serie temporal consultada
+        return null; 
+        
+    } 
+    
     // Getters y Setters
     public String getIdentificadorSismografo() {
         return identificadorSismografo; 

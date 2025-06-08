@@ -10,6 +10,7 @@ import java.util.Comparator;
 import com.grupo7.dsi_tp1.EventoSismico;
 import com.grupo7.dsi_tp1.Estado;
 import com.grupo7.dsi_tp1.Usuario;
+import com.grupo7.dsi_tp1.Sismografo;
 import com.grupo7.dsi_tp1.Ventana1;
 
 public class GestorRevisionManual {
@@ -18,14 +19,16 @@ public class GestorRevisionManual {
     private List<EventoSismico> eventosSismicos = new ArrayList<>(); 
     private List<Estado> estados = new ArrayList<>();
     private List<Usuario> usuarios = new ArrayList<>();
+    private List<Sismografo> sismografos = new ArrayList<>();
     private Ventana1 pantallaRevisionManual;
     
     // Constructor
     public GestorRevisionManual(List<EventoSismico> eventosSismicos, List<Estado> estados,
-            List<Usuario> usuarios, Ventana1 pantallaRevisionManual) {
+            List<Usuario> usuarios, List<Sismografo> sismografos, Ventana1 pantallaRevisionManual) {
         this.eventosSismicos = eventosSismicos;
         this.estados = estados; 
         this.usuarios = usuarios; 
+        this.sismografos = sismografos; 
         this.pantallaRevisionManual = pantallaRevisionManual;
     }
 
@@ -72,30 +75,42 @@ public class GestorRevisionManual {
     
     // Tomar los datos principales del evento sismico seleccioando y encontrar al evento sismico seleccionado
     public void tomarSeleccionEventoSismico(List<String> datosPrincipales) {
-        // Por ejemplo, imprimir los datos o buscar el evento correspondiente
         System.out.println("Evento sísmico seleccionado:");
         for (String s : datosPrincipales) {
             System.out.println("- " + s);
         }
 
-        // Obtener el evento sismico seleccionado a partir de sus datos principales
+        // Obtener el evento sismico seleccionado
         for (EventoSismico eventoSismico : eventosSismicos) {
-            
             if (eventoSismico.sonMisDatosPrincipales(datosPrincipales)) {
-                
-                // Asignar el evento sismico coincidente como evento sismico seleccionado
-                this.eventoSismicoSeleccionado = eventoSismico; 
-                
-                // Romper el bucle
-                break; 
+                this.eventoSismicoSeleccionado = eventoSismico;
+                System.out.println("EventoSismicoSeleccionado del gestor: " + this.eventoSismicoSeleccionado);
+                break;
             }
         }
-        
+
         // Bloquear el evento sismico seleccionado
         if (this.eventoSismicoSeleccionado != null) {
             bloquearEventoSismicoSeleccioando();
+            System.out.println("El evento sismico seleccionado ha sido bloqueado.");
         }
-        
+
+        // Obtener metadatos del evento
+        List<String> metadatosEvento = obtenerMetadatosDelEvento();
+        System.out.println("Metadatos del evento: " + metadatosEvento);
+
+        // Obtener datos registrados de series temporales
+        List<List<Object>> datosSeries = buscarDatosRegistrados(sismografos);
+
+        // Ordenar por Estación Sismológica
+        List<List<Object>> datosSeriesOrdenados = ordenarDatosRegistrados(datosSeries);
+
+        // Mostrar en la pantalla (invocar el método nuevo de la pantalla)
+        pantallaRevisionManual.mostrarDatosSismicosRegistrados(
+            datosPrincipales,
+            metadatosEvento,
+            datosSeriesOrdenados
+        );
     }
 
     
@@ -141,5 +156,50 @@ public class GestorRevisionManual {
         
         // Bloqueando el evento sismico selccionado
         this.eventoSismicoSeleccionado.bloquearPorRevision(estadoBloqueado, fechaHoraActual, empleadoResponsableDeInspeccion);
+        System.out.println("Evento Sismico bloqueado por revision: " + this.eventoSismicoSeleccionado + estadoBloqueado);
+        
+    }
+    
+    // Obtener los metadatos del evento sismico selccioando: alcance, origen de generacion y clasificacion
+    public List<String> obtenerMetadatosDelEvento() {
+        
+        List<String> metadatosEventoSismico = this.eventoSismicoSeleccionado.obtenerMetadatosDelEvento();
+        
+        return metadatosEventoSismico;
+        
+    }
+    
+    public List<List<Object>> buscarDatosRegistrados(List<Sismografo> sismografos) {
+        
+        // Definiendo la lista de datos registrados
+        List<List<Object>> listaDatosRegistrados = new ArrayList<>();
+
+        // consumir buscar dartosRegistrados de evento sismico seleccionado
+        listaDatosRegistrados = this.eventoSismicoSeleccionado.buscarDatosRegistrados(sismografos);    
+
+        // Retornando los datos registrados desordenados del evento sismico seleccionado 
+        return listaDatosRegistrados; 
+    
+    }
+    
+    // Ordenar datos registrados de evento sismico
+    public List<List<Object>> ordenarDatosRegistrados(List<List<Object>> datosRegistrados) {
+
+        datosRegistrados.sort((serie1, serie2) -> {
+
+            // Si la lista está vacía, la mandamos al final
+            if (serie1.isEmpty()) return 1;
+            if (serie2.isEmpty()) return -1;
+
+            // Si el primer elemento no es String, lo mandamos al final
+            if (!(serie1.get(0) instanceof String) || !(serie2.get(0) instanceof String)) return 0;
+
+            String codigo1 = (String) serie1.get(0); // codigoEstacion
+            String codigo2 = (String) serie2.get(0);
+
+            return codigo1.compareTo(codigo2);
+        });
+
+        return datosRegistrados;
     }
 }

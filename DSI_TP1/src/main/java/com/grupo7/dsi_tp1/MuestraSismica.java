@@ -26,8 +26,19 @@ public class MuestraSismica {
     }
     
     // Comportamiento
-    public void getDatos() {
-        // TODO
+    public List<Object> getDatos() {
+        
+        // Definiendo la lista de datos de la muestra sismica
+        List<Object> datosMuestrasSismicas = new ArrayList<>();    
+        
+        for (DetalleMuestraSismica dMuestraSismica : detalleMuestraSismica) {
+            
+            // Agregando los detalle de la musetra sismica
+            datosMuestrasSismicas.add(dMuestraSismica.getDatos());
+        }
+        
+        // retornando los datos registrados de las muestras sismicas
+        return datosMuestrasSismicas;
     }
     
     // Getters y Setters

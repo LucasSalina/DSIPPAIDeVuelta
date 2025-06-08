@@ -16,15 +16,15 @@ public class TipoDeDato {
         this.valorUmbral = valorUmbral; 
     }
     
-    public boolean esTuDenominacion() {
-        
-        // Implementar
-        return true; 
-    }
     
     public String getDenominacion() {
         
         return denominacion; 
+    }
+    
+    public String getNombreUnidadMedida() {
+        
+        return nombreUnidadMedida;
     }
     
 }

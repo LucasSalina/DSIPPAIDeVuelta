@@ -14,6 +14,7 @@ import com.grupo7.dsi_tp1.MagnitudRitcher;
 import com.grupo7.dsi_tp1.OrigenDeGeneracion;
 import com.grupo7.dsi_tp1.AlcanceSismo;
 import com.grupo7.dsi_tp1.Empleado;
+import com.grupo7.dsi_tp1.Sismografo; 
 
 public class EventoSismico {
     
@@ -115,7 +116,7 @@ public class EventoSismico {
     public boolean sonMisDatosPrincipales(List<String> datosPrincipales) {
         
         // Verificando si los datos principales corresponden con los mios
-        if (obtenerDatosPrincipales() == datosPrincipales) {
+        if (obtenerDatosPrincipales().equals(datosPrincipales)) {
             
             // Son mis datos principales
             return true;
@@ -146,8 +147,36 @@ public class EventoSismico {
         
         // Creando un nuevo objeto cambio de estado con estado BloqueadoPorRevision
         CambioEstado nuevoCambioEstado = new CambioEstado(estadoBloqueado, responsableInspeccion, fechaHoraActual);
+    
+        // Agregando el nuevo cambio de estado al listado de cambios de estado del evento sismico
+        this.cambioEstado.add(nuevoCambioEstado);
     }
     
+    // Obtener medatadatos del evento sismico
+    public List<String> obtenerMetadatosDelEvento() {
+        List<String> metadatos = new ArrayList<>();
+        metadatos.add(getAlcance().toString());
+        metadatos.add(getClasificacion().toString());
+        metadatos.add(getOrigen().toString());
+        return metadatos;
+    }
+
+    
+    // Buscar datos registrados 
+    public List<List<Object>> buscarDatosRegistrados(List<Sismografo> sismografos) {
+
+        List<List<Object>> datosSeries = new ArrayList<>();
+
+        for (SerieTemporal sTemporal : serieTemporal) {
+
+            List<Object> datosDeSerie = sTemporal.getDatos(sismografos);
+
+            datosSeries.add(datosDeSerie);
+        }
+
+        return datosSeries;
+    }
+
     
     // Getters
     public LocalDateTime getFechaHoraOcurrencia() {
