@@ -154,10 +154,16 @@ public class EventoSismico {
     
     // Obtener medatadatos del evento sismico
     public List<String> obtenerMetadatosDelEvento() {
+        
+        // Definiendo los metadatos del evento sismico
         List<String> metadatos = new ArrayList<>();
-        metadatos.add(getAlcance().toString());
-        metadatos.add(getClasificacion().toString());
-        metadatos.add(getOrigen().toString());
+        
+        // Añadiendo los metadatos del evento sismico 
+        metadatos.add(getAlcance().getNombre());
+        metadatos.add(getClasificacion().getNombre());
+        metadatos.add(getOrigen().getNombre());
+        
+        // retornando los metadatos del evento sismico
         return metadatos;
     }
 
